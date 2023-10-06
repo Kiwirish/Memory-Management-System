@@ -9,11 +9,11 @@ CFLAGS := -W -Wall -pedantic -g
 
 all: module debug retrieve store
 
-retrieve: libmemdrv.c libmemdrv.h fs.h retrieve.c
-	gcc $(CFLAGS) -o retrieve retrieve.c libmemdrv.c
+store: store.c libmemdrv.c libmemdrv.h fs.h
+	gcc $(CFLAGS) -g -o store store.c libmemdrv.c
 
-store: libmemdrv.c libmemdrv.h fs.h store.c
-	gcc $(CFLAGS) -o store store.c libmemdrv.c
+retrieve: retrieve.c libmemdrv.c libmemdrv.h fs.h
+	gcc $(CFLAGS) -g -o retrieve retrieve.c libmemdrv.c
 
 module:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
