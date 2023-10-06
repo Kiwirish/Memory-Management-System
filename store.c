@@ -12,6 +12,23 @@
 #define BLOCK_SIZE 64
 #define MAX_BID 78
 
+// store is like retrieve but roles reversed in reading and writing 
+// any interaction with memdrv we use a block 
+// write block into free list 
+// inode address = freelist[i] 
+
+
+
+// need to define free_list 
+
+
+// if argument 3 is the -r then do the shuffle 
+
+// read in fd, buf, BLOCK_SIZE into bytes variable 
+
+// need to loop over  and write block to free_list 
+
+// If there are bytes (bytes>0), then loop BLOCKSIZE, if bytes==0 then break 
 
 
 int main(int argc, char *argv[])
