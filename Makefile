@@ -7,11 +7,13 @@ PWD	:= $(shell pwd)
 
 CFLAGS := -W -Wall -pedantic -g
 
-all: module debug
+all: store retrieve module debug
 
-retrieve: 
-	retrieve.c libmemdrv.c libmemdrv.h
-	gcc -g -o retrieve-prog retrieve.c libmemdrv.c
+store: store.c libmemdrv.c libmemdrv.h
+	gcc $(CFLAGS) -g -o store-prog store.c libmemdrv.c
+
+retrieve: retrieve.c libmemdrv.c libmemdrv.h
+	gcc $(CFLAGS) -g -o retrieve-prog retrieve.c libmemdrv.c
 
 module:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
