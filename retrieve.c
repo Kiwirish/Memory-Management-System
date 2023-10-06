@@ -18,6 +18,7 @@ int main(int argc, char *argv[]){
 
 
 }
+/// freads reads from a file a block at ta time , and puts it straight into teh bufer. Good command for the store program. 
 
 // open the /dev/memdrv device 
 open_device();
@@ -26,6 +27,8 @@ open_device();
 for (int i = 0 ; i < NDIRECT ; i++){
     if (inode.addrs[i]){
         read_block(inode.addrs[i], buf);
+        // append that buffer to a huge character array 
+        // char * File_out, keep wirin ot that. 
         //fwrite(buf, sizeof(char), BLOCK_SIZE, outfile);
     }
 }
@@ -34,8 +37,9 @@ for (int i = 0 ; i < NDIRECT ; i++){
 // Indirect blocks of data retrieval 
 // The file data exceeds storage in the direct blocks if the inode has an indirect address
 if(inode.addrs[NDIRECT]){
-    // indirect block 
+    // indirect block array 
     int8t_t indirect[BLOCK_SIZE];
+    // read  indirect inode addresses
     read_block(inode.addrs[NDIRECT], (char*)indirect);
 
     // if the indirect block is full, retrieve it all by looping over 
@@ -46,7 +50,10 @@ if(inode.addrs[NDIRECT]){
         }
     }
 }
+// last block caclulation 
+
 // close the device 
 close_device();
 
-if (output)
+// output stuff 
+//if (output)
