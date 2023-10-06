@@ -8,3 +8,9 @@
 #   - Indirect block retrieval without writing to output yet 
 #   - Must yet add argument handling 
 #   - Must yet add output file / stdout stuff 
+
+#   6 Oct 
+#   - retrieve program handles arguments 
+#   - retrieve program goes by current size of inode  
+#   - retrieve program successfully retrieves the data the same as sample-retrieve
+#   

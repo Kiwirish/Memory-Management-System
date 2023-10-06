@@ -1,0 +1,12 @@
+*.o
+*.mod
+*.mod.*
+*.cmd
+*.symvers
+*.order
+*.ko
+sample-store
+sample-retrieve
+debug
+store
+retrieve
