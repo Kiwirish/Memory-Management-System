@@ -4,7 +4,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
 #include "libmemdrv.h"
 #include "fs.h"
 
@@ -33,22 +32,7 @@ void shuffle(int8_t *array, int n)
 // stored at positions determined by the values in free_list
 // at positions (1,2,3... MAX_BID-1)
 
-// store is like retrieve but roles reversed in reading and writing
-// any interaction with memdrv we use a block
-// write block into free list
-// inode address = freelist[i]
-
-// need to define free_list
-
-// if argument 3 is the -r then do the shuffle
-
-// read in fd, buf, BLOCK_SIZE into bytes variable
-
-// need to loop over  and write block to free_list
-
-// If there are bytes (bytes>0), then loop BLOCKSIZE, if bytes==0 then break
-
-// initialize free list
+// initialize free list with the 0th position being unused
 void init_free_list()
 {
     for (int i = 0; i < MAX_BID; i++)
@@ -57,7 +41,7 @@ void init_free_list()
     }
 }
 
-// searches through free list to find the first free block
+// searches through free list to find the first free block index
 int find_free_block()
 {
     for (int i = 0; i < MAX_BID; i++)
@@ -117,18 +101,28 @@ int main(int argc, char *argv[])
         // If there are bytes (bytes>0), then loop BLOCKSIZE, if bytes==0 then break
         if (bytes > 0)
         {
-            // Find a free block
-            int block = find_free_block();
+            for (int i = 0; i < BLOCK_SIZE; i++)
+            {
 
-            // Write the block to the memdrv device
-            write_block(block, buf);
+                // Find a free block
+                int block = find_free_block();
+
+                if (block == -1)
+                {
+                    fprintf(stderr, "no space\n");
+                    break;
+                }
+
+                // Write the block to the memdrv device
+                write_block(block, buf);
+                free_list[block] = 1;
+            }
         }
         else
         {
             printf("File stored\n");
             break;
         }
-        
     }
     // Close the memdrv device
     close_device();
