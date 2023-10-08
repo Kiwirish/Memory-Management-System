@@ -7,10 +7,10 @@
 #include <errno.h>
 #include "libmemdrv.h"
 #include "fs.h"
-#include "random.c"
 
 #define BLOCK_SIZE 64
 #define MAX_BID 78
+#define TRUE 1
 
 // the free list should be initialised with values 0 to MAX_BID - 1
 static int8_t free_list[MAX_BID];
@@ -27,8 +27,6 @@ void shuffle(int8_t *array, int n)
         array[i] = t;
     }
 }
-
-
 
 // when given the -r option, instead of storing data at
 // sequential blocks (1,2,3... MAX_BID-1) data should be
@@ -99,12 +97,8 @@ int main(int argc, char *argv[])
     if (file_size > BLOCK_SIZE * MAX_BID)
     {
         fprintf(stderr, "truncated\n");
-        //If true then truncate the file size to the max block size
-
+        // If true then truncate the file size to the max block size
     }
-
-    // Calculate the number of blocks needed
-  //  int num_blocks = (file_size + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
     // check for randomise option
     if (argc == 3 && strcmp(argv[2], "-r") == 0)
@@ -115,15 +109,27 @@ int main(int argc, char *argv[])
     // Open the memdrv device
     open_device();
 
-    // write the file to the device
-    // int block_id = 0;
-    char buf[BLOCK_SIZE];
-    for (int i = 0; i < BLOCK_SIZE; i += BLOCK_SIZE)
+    while (TRUE)
     {
-        read(input_fd, buf, BLOCK_SIZE);
-        write_block(find_free_block(), buf);
-    }
+        // Read a block from the input file
+        int bytes = read(input_fd, buf, BLOCK_SIZE);
 
+        // If there are bytes (bytes>0), then loop BLOCKSIZE, if bytes==0 then break
+        if (bytes > 0)
+        {
+            // Find a free block
+            int block = find_free_block();
+
+            // Write the block to the memdrv device
+            write_block(block, buf);
+        }
+        else
+        {
+            printf("File stored\n");
+            break;
+        }
+        
+    }
     // Close the memdrv device
     close_device();
 
