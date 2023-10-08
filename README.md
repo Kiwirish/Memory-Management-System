@@ -13,4 +13,14 @@
 #   - retrieve program handles arguments 
 #   - retrieve program goes by current size of inode  
 #   - retrieve program successfully retrieves the data the same as sample-retrieve
-#   
+
+# 7 Oct
+#   -added The store programto handle random argument
+#   -Added the shuffle
+#   -Needed to add freelist to keep track of unused blocks
+#   -Need to properly add the truncate function
+
+# 8 Oct
+#   -Updated store to write block to memory using the freelist
+
+
