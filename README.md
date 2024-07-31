@@ -1,4 +1,4 @@
-# cosc204-Assignment2
+# Memory Management System (cosc204) :
 
 # Retrieve program - 
 #    5 Oct   
